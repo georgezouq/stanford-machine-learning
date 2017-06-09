@@ -21,7 +21,7 @@ for iter = 1:num_iters
     updates = X' * (predictions - y);
     theta = theta - alpha * (1/m) * updates;
 
-
+    % theta = theta - alpha * (1/m) * (X' * ((X * theta) - y))
 
 
 
