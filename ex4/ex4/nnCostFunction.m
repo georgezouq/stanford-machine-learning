@@ -62,21 +62,53 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
-X = [ones(m, 1) X];
+X = [ones(m, 1), X]
 
-a2 = sigmoid(Theta1 * X');
-a2 = [ones(m, 1)' a2];
+a2 = sigmoid(Theta1 * X')
+a2 = [ones(m, 1), a2']
+a3 = sigmoid(Theta2 * a2')
 
-a3 = sigmoid(Theta2 * a2);
+yk = zeros(num_labels, m)
+for i=1:m,
+    yk(y(i), i) = 1
+end
 
-leftPart = log(a3) * (-y);
+leftPart = -yk * log(a3)
+rightPart = (1 - yk) * log(1 - a3)
+J = (1 / m) * sum( sum(leftPart - rightPart) )
 
-rightPart = log(1 - a3) * (1 - y);
+t1 = Theta1(:, 2:size(Theta1, 2));
+t2 = Theta2(:, 2:size(Theta2, 2));
 
-J = 1/m * (leftPart - rightPart);
+Reg = (lambda * (sum(sum(t1 .^ 2)) + sum(sum(t2 .^ 2))) / (2 * m);
+
+% cost + reg
+
+J = J + Reg;
+
+% Back Propagation
+
+for i=1:m,
+    a1 = X(i, :);
+    z2 = Theta1 * a1';
+    a2 = sigmoid(z2);
+    a2 = a2(ones(m, 1), a2)
+    z3 = Theta2 * a2';
+    a3 = sigmoid(z3);
+
+    delta3 = a3 - yk(:, t);
+    delta2 = (Theta2' * delta3) .* sigmoidGradient(z2)
+    Theta2_grad = Theta2_grad + delta3 * a2'
+    Theta1_grad = Theta1_grad + delta2 * a1
+
+end;
 
 
+Theta1_grad(:, 1) = Theta1_grad(:, 1) ./ m;
+Theta1_grad(:, 2:end) = Theta1_grad(:, 2:end) ./ m + ((lambda / m) * Theta1(:, 2:end));
 
+Theta2_grad(:, 1) = Theta2_grad(:, 1) ./ m;
+Theta2_grad(:, 2:end) = Theta2_grad(:, 2:end) . / m + ((lambda / m) * Theta2(:, 2:end));
 
 
 
