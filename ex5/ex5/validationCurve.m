@@ -40,27 +40,17 @@ error_val = zeros(length(lambda_vec), 1);
 %
 
 
-for i = 1:length(lambda_vec)
-    lambda = lambda_vec(i);
+for i = 1:length(lambda_vec),
+    lambda = lambda_vec(i)
 
-    % Compute train / val errors when training linear
-    % regression with regularization parameter lambda
-    % You should store the result in error_train(i)
-    % and error_val(i)
+    theta = trainLinearReg(X, y, lambda)
 
-	theta = trainLinearReg(X, y, lambda);
+    [J_train, grad] = linearRegCostFunction(X, y, theta, lambda)
+    [J_val, grad] = linearRegCostFunction(Xval, yval, theta, lambda)
 
-	%Compute train/cross validation errors using training examples
-	[Jtrain,grad_train]=linearRegCostFunction(X,y,theta,0);
-	[Jval,grad_val]=linearRegCostFunction(Xval,yval,theta,0);
-
-	%storing the result in
-	error_train(i) = Jtrain;
-	error_val(i) = Jval;
-
-end
-
-
+    error_train(i) = J_train;
+    error_val(i) = J_val;
+end;
 
 
 
