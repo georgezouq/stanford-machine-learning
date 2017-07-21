@@ -87,9 +87,8 @@ while ~isempty(email_contents)
     %               vector. Concretely, if str = 'action', then you should
     %               look up the vocabulary list to find where in vocabList
     %               'action' appears. For example, if vocabList{18} =
-    %               'action', then, you should add 18 to the word_indices 
-    %               vector (e.g., word_indices = [word_indices ; 18]; ).
-    % 
+    %               'action', then, you should add 18 to
+    %                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
     % Note: vocabList{idx} returns a the word with index idx in the
     %       vocabulary list.
     % 
@@ -98,9 +97,8 @@ while ~isempty(email_contents)
     %
 
 
-    word_indices = [word_indices; find(ismember(vocabList, str))];
 
-
+    word_indices = [word_indices; find(strcmp(vocabList, str))]
 
 
 
